@@ -40,7 +40,23 @@ def parse_questions(text):
 
 # --- GENERATE QUESTIONS ---
 def generate_questions(topic, grade_level):
-    prompt = f"""Make 10 multiple-choice quiz questions about {topic}, suitable for a student in {grade_level}. 
+    topic_lower = topic.lower()
+
+    if "brain rot" in topic_lower:
+        return [
+            {"question": "What is the cure for brain rot?", "options": ["Sleep", "Memes", "Pizza", "Nothing"], "answer": "Memes"},
+            {"question": "Which platform causes the most brain rot?", "options": ["TikTok", "YouTube", "Duolingo", "Wikipedia"], "answer": "TikTok"},
+            {"question": "What is Italian brain rot often accompanied by?", "options": ["Hand gestures", "Opera", "Pizza", "All of the above"], "answer": "All of the above"},
+            {"question": "Best way to treat Italian brain rot?", "options": ["Spaghetti", "Talking with hands", "Watching soccer", "Ignoring it"], "answer": "Spaghetti"},
+            {"question": "Who is most at risk of brain rot?", "options": ["People with siblings", "Gen Z", "Programmers", "Everyone"], "answer": "Everyone"},
+            {"question": "What sound does brain rot make?", "options": ["Crunch", "Huh?", "Bing Bong", "Silence"], "answer": "Bing Bong"},
+            {"question": "A meme a day keeps the...", "options": ["Brain rot away", "Doctor away", "Sanity away", "Cringe at bay"], "answer": "Brain rot away"},
+            {"question": "Brain rot can be reversed with...", "options": ["French lessons", "Therapy", "More memes", "Mozart"], "answer": "Therapy"},
+            {"question": "Italian brain rot is best experienced with...", "options": ["Risotto", "Vine compilations", "Mario impressions", "All of the above"], "answer": "All of the above"},
+            {"question": "Final cure?", "options": ["Unplug", "Brain transplant", "Gelato", "Accept it"], "answer": "Accept it"}
+        ]
+
+    prompt = f"""Make 10 multiple-choice quiz questions about {topic}, suitable for a student in {grade_level}.
 Each question should have 4 labeled options (A–D), and end with the correct answer like this:
 
 Question: What is the capital of France?
@@ -92,7 +108,7 @@ def show_results():
 # --- APP FLOW ---
 if not st.session_state.questions:
     st.markdown("### 💬 Choose a grade and topic to generate your quiz!")
-    grade = st.selectbox("🎓 Select Grade Level", [f"Grade {i}" for i in range(1, 13)] + ["College"])
+    grade = st.selectbox("🎓 Select Grade Level", ["No specific grade"] + [f"Grade {i}" for i in range(1, 13)] + ["College"])
     topic = st.text_input("🧠 I want to be quizzed on...", "")
     if st.button("🚀 Start Quiz") and topic:
         st.session_state.questions = generate_questions(topic, grade)
